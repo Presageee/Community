@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.learncommunity.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="org.learncommunity.entity.Course" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="teaid" property="teaid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="root" property="root" jdbcType="INTEGER" />
+    <result column="stucnt" property="stucnt" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, teaid, type, root, stucnt, description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from course
+    LIMIT #{offset},#{limit}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from course
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.learncommunity.entity.Course" >
+    insert into course (id, name, teaid, 
+      type, root, stucnt, 
+      description)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{teaid,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{root,jdbcType=INTEGER}, #{stucnt,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.learncommunity.entity.Course" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="teaid != null" >
+        teaid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="root != null" >
+        root,
+      </if>
+      <if test="stucnt != null" >
+        stucnt,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="teaid != null" >
+        #{teaid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="root != null" >
+        #{root,jdbcType=INTEGER},
+      </if>
+      <if test="stucnt != null" >
+        #{stucnt,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.learncommunity.entity.Course" >
+    update course
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="teaid != null" >
+        teaid = #{teaid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="root != null" >
+        root = #{root,jdbcType=INTEGER},
+      </if>
+      <if test="stucnt != null" >
+        stucnt = #{stucnt,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.learncommunity.entity.Course" >
+    update course
+    set name = #{name,jdbcType=VARCHAR},
+      teaid = #{teaid,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      root = #{root,jdbcType=INTEGER},
+      stucnt = #{stucnt,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

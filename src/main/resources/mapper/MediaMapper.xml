@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.learncommunity.dao.MediaMapper" >
+  <resultMap id="BaseResultMap" type="org.learncommunity.entity.Media" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="uploaderid" property="uploaderid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="root" property="root" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+  </resultMap>
+  <resultMap id="selectMediaJoinUser" type="org.learncommunity.entity.Media">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="uploaderid" property="uploaderid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="root" property="root" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <association property="user" javaType="org.learncommunity.entity.User" resultMap="UserRs"></association>
+  </resultMap>
+  <resultMap id="UserRs" type="org.learncommunity.entity.User">
+    <id column="u_id" property="id" jdbcType="INTEGER"/>
+    <result column="u_name" property="name" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, uploaderid, type, time, root, description, url, price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from media
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectMediaJoinUserByPK" resultMap="selectMediaJoinUser" parameterType="java.lang.Integer">
+    SELECT
+    m.id, m.name, m.uploaderid, m.type, m.time, m.root, m.description, m.url, m.price,
+    u.id u_id, u.name u_name
+    FROM
+    media m
+    LEFT JOIN
+    user u
+    ON
+    m.uploaderid = u.id
+    WHERE
+    m.id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from media
+    where uploaderid = #{uploaderid,jdbcType=INTEGER}
+    LIMIT #{offset},#{limit}
+  </select>
+  <select id="selectByNameOrType" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from media INNER JOIN (select id from media
+    where name like CONCAT('%',#{name,jdbcType=VARCHAR},'%') OR type LIKE CONCAT('%',#{type,jdbcType=VARCHAR},'%')
+    order by id desc LIMIT #{offset},#{limit}) as a USING (id)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from media
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.learncommunity.entity.Media" >
+    insert into media (id, name, uploaderid, 
+      type, time, root, 
+      description, url, price
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{uploaderid,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{root,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.learncommunity.entity.Media" >
+    insert into media
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="uploaderid != null" >
+        uploaderid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="root != null" >
+        root,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaderid != null" >
+        #{uploaderid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="root != null" >
+        #{root,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.learncommunity.entity.Media" >
+    update media
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaderid != null" >
+        uploaderid = #{uploaderid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="root != null" >
+        root = #{root,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.learncommunity.entity.Media" >
+    update media
+    set name = #{name,jdbcType=VARCHAR},
+      uploaderid = #{uploaderid,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      root = #{root,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
