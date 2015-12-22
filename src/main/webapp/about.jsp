@@ -86,7 +86,7 @@
         <div class="col-md-4"></div>
         <div class="col-md-4">
             <p>技术支持：ssm+jq+bootstrap</p>
-            <p>源码：<a href="">MyGitHub</a></p>
+            <p>源码：<a href="https://github.com/Presageee/Community">MyGitHub</a></p>
         </div>
         <div class="col-md-4"></div>
     </div>

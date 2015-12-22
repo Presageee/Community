@@ -74,6 +74,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(MD5(password));
         user.setName(name);
         user.setRoot(STUDENT);
+        user.setReplycnt(0);
+        user.setTopiccnt(0);
+        user.setPhotourl("image/null.png");
         int flag;
         flag = userMapper.insertSelective(user);
         if (flag == -1){
@@ -104,6 +107,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         user.setName(name);
         user.setRoot(TEACHER);
+        user.setReplycnt(0);
+        user.setTopiccnt(0);
+        user.setPhotourl("image/null.png");
         int flag;
         flag = userMapper.insertSelective(user);
         if(flag == -1){
