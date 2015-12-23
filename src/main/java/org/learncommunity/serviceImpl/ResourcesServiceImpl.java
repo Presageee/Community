@@ -1,11 +1,14 @@
 package org.learncommunity.serviceImpl;
 
 import org.learncommunity.dao.ResourcesMapper;
+import org.learncommunity.dao.TopicMapper;
 import org.learncommunity.entity.Resources;
+import org.learncommunity.entity.Topic;
 import org.learncommunity.service.ResourcesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -66,4 +69,5 @@ public class ResourcesServiceImpl implements ResourcesService {
     public List<Resources> selectByNameOrType(String name, String type, int offset, int limit) {
         return resourcesMapper.selectByNameOrType(name, type, (offset - 1) * limit, limit);
     }
+
 }

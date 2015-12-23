@@ -121,8 +121,17 @@ public class TopicController {
         User user = null;
         logger.info(content + " t : " + type + " title: " + title);
         boolean isNotNull = true;
+        boolean paramIsNotNull = false;
         int insertTopicFlag = -1;
         int updateUserFlag = -1;
+        if (!content.equals("") && content != null && !title.equals("") && title != null) {
+            paramIsNotNull = true;
+        }
+        if (!paramIsNotNull) {
+            modelMap.put("success", "false");
+            modelMap.put("message", "标题或内容不能为空");
+            return modelMap;
+        }
         try {
             user = (User)request.getSession().getAttribute("user");
             logger.info(user.getName());

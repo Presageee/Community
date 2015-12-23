@@ -2,6 +2,7 @@ package org.learncommunity.service;
 
 import org.learncommunity.entity.Media;
 import org.learncommunity.entity.Resources;
+import org.learncommunity.entity.Topic;
 
 import java.util.List;
 
@@ -28,4 +29,5 @@ public interface ResourcesService {
     List<Resources> selectByUserId(int userId, int offset, int limit);
 
     List<Resources> selectByNameOrType(String name, String type, int offset, int limit);
+
 }

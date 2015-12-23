@@ -184,12 +184,15 @@
                 url: "${ctx}/createTopic.do",
                 data: {content: html, courseType: type, title: title},
                 success: function (data){
-                    alert("ajax成功");
                     if (data && data.success == "true"){
                         alert("发表成功");
                         window.location.href = "${ctx}/topicSkip.do";
                     } else {
-                        alert("发表失败，请重试");
+                        if (data.message) {
+                            alert(data.message);
+                        } else {
+                            alert("发表失败，请重试");
+                        }
                     }
                 }
             });
