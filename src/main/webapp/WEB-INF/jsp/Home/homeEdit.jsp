@@ -11,10 +11,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <script src="js/jquery.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/ajaxfileupload.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/>">
+    <script src="<c:url value="/js/jquery.min.js"/>" type="text/javascript"></script>
+    <script type="text/javascript" src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/js/ajaxfileupload.js"/>"></script>
     <title>资料编辑</title>
 </head>
 <body>
@@ -35,10 +35,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="${ctx}/index.jsp">主页<span class="sr-only">(current)</span></a></li>
-                <li><a href="${ctx}/PDFSkip.do">电子书</a></li>
-                <li><a href="${ctx}/MediaSkip.do">视频</a></li>
-                <li><a href="${ctx}/topicSkip.do">社区</a></li>
-                <li><a href="${ctx}/about.do">关于</a></li>
+                <li><a href="${ctx}/api/PDFSkip.do">电子书</a></li>
+                <li><a href="${ctx}/api/MediaSkip.do">视频</a></li>
+                <li><a href="${ctx}/api/topicSkip.do">社区</a></li>
+                <li><a href="${ctx}/about.jsp">关于</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -46,18 +46,18 @@
                         <c:when test="${isLogin == 'hello'}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${user.name}<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${ctx}/homeSkip.do">个人中心</a></li>
-                                <li><a href="${ctx}/homeEditSkip.do">修改资料</a></li>
-                                <li><a href="${ctx}/homeEditPasswordSkip.do">修改密码</a></li>
+                                <li><a href="${ctx}/api/homeSkip.do">个人中心</a></li>
+                                <li><a href="${ctx}/api/homeEditSkip.do">修改资料</a></li>
+                                <li><a href="${ctx}/api/homeEditPasswordSkip.do">修改密码</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="${ctx}/logoutSkip.do">注销</a></li>
+                                <li><a href="${ctx}/api/logoutSkip.do">注销</a></li>
                             </ul>
                         </c:when>
                         <c:otherwise>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登陆/注册<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${ctx}/stuLoginSkip.do">学生登陆/注册</a></li>
-                                <li><a href="${ctx}/teaLoginSkip.do">教师登陆/注册</a></li>
+                                <li><a href="${ctx}/api/stuLoginSkip.do">学生登陆/注册</a></li>
+                                <li><a href="${ctx}/api/teaLoginSkip.do">教师登陆/注册</a></li>
                             </ul>
                         </c:otherwise>
                     </c:choose>
@@ -70,21 +70,22 @@
     <div class="row">
         <div class="col-md-2">
             <div class="list-group">
-                <a href="${ctx}/homeSkip.do" class="list-group-item">
+                <a href="${ctx}/api/homeSkip.do" class="list-group-item">
                     个人主页
                 </a>
-                <a href="${ctx}/homeEditSkip.do" class="list-group-item active"><strong>修改资料</strong></a>
-                <a href="${ctx}/homePDFSkip.do" class="list-group-item">我的PDF</a>
-                <a href="${ctx}/homeMediaSkip.do" class="list-group-item">我的视频</a>
-                <a href="${ctx}/homeEditPasswordSkip.do" class="list-group-item">修改密码</a>
-                <a href="${ctx}/homeReplySkip.do" class="list-group-item">我的回复</a>
-                <a href="${ctx}/homeTopicSkip.do" class="list-group-item">我的提问</a>
+                <a href="${ctx}/api/homeEditSkip.do" class="list-group-item active"><strong>修改资料</strong></a>
+                <a href="${ctx}/api/homePDFSkip.do" class="list-group-item">我的PDF</a>
+                <a href="${ctx}/api/homeMediaSkip.do" class="list-group-item">我的视频</a>
+                <a href="${ctx}/api/homeEditPasswordSkip.do" class="list-group-item">修改密码</a>
+                <a href="${ctx}/api/homeReplySkip.do" class="list-group-item">我的回复</a>
+                <a href="${ctx}/api/homeTopicSkip.do" class="list-group-item">我的提问</a>
             </div>
         </div>
         <div class="col-md-10" style="background-color: #eeeeee; min-height:86.5%">
             <form class="form-horizontal" enctype="multipart/form-data">
                 <input type="hidden" id="id" value="${user.id}"/>
                 <input type="hidden" id="imgSrc" value=""/>
+                <input type="hidden" id="method" value="put"/>
 
                 <div class="form-group" id="preview">
                     <br>
@@ -113,7 +114,7 @@
                     <label for="address" class="col-sm-2 control-label">Address:</label>
 
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="address" placeholder="城市或详细住址"
+                        <input type="text" class="form-control" id="address" placeholder="城市或详细住址"
                                value="${user.address}">
                     </div>
                 </div>
@@ -121,7 +122,7 @@
                     <label for="goodAt" class="col-sm-2 control-label">Good at:</label>
 
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="goodAt" placeholder="擅长的技术"
+                        <input type="text" class="form-control" id="goodAt" placeholder="擅长的技术"
                                value="${user.goodat}">
                     </div>
                 </div>
@@ -166,15 +167,16 @@
             var goodAt = $('#goodAt').val();
             var educational = $('#educational').val();
             var profile = $('#profile').val();
+            var method = $('#method').val();
             jQuery.ajax({
                 data: {id: id, imgSrc: imgSrc, phone: phone, address: address, goodAt: goodAt,
-                    educational: educational, profile: profile},
-                url: "${ctx}/edit.do",
+                    educational: educational, profile: profile, _method: method},
+                url: "${ctx}/api/user/",
                 type: "POST",
                 success: function (data) {
                     if (data && data.success == "true"){
                         alert("修改成功");
-                        window.location.href = "${ctx}/homeSkip.do";
+                        window.location.href = "${ctx}/api/homeSkip.do";
                     } else {
                         alert("出现了不知名的bug上传失败");
                     }
@@ -191,7 +193,7 @@
         console.log($('#picture').val());
         //$('#picture').attr("src", "${ctx}/fileUpload/temp/" + fileName);
         $.ajaxFileUpload({
-            url: "${ctx}/imageUpload.do",
+            url: "${ctx}/api/user/image/",
             secureuri: false,
             fileElementId: "inputFile",
             type: 'POST',

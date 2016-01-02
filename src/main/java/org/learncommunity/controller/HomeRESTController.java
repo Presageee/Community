@@ -3,18 +3,13 @@ package org.learncommunity.controller;
 import org.apache.log4j.Logger;
 import org.learncommunity.entity.*;
 import org.learncommunity.service.*;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,11 +20,11 @@ import java.util.Map;
  * Created by LJT on 2015/12/15.
  */
 
-@Controller
+@RestController
 @RequestMapping("/")
-public class HomeController {
+public class HomeRESTController {
 
-    private static Logger logger = Logger.getLogger(HomeController.class);
+    private static Logger logger = Logger.getLogger(HomeRESTController.class);
 
     @Resource
     private UserService userService;
@@ -52,8 +47,8 @@ public class HomeController {
      * @param request client request
      * @return json of status
      */
-    @RequestMapping(value = "/edit.do")
-    @ResponseBody
+    @RequestMapping(value = "/user/", method = RequestMethod.PUT, headers = "Accept=application/json",
+            produces = {"application/json;charset=UTF-8"})
     public Map<String, Object> edit(@RequestParam("id") Integer id, @RequestParam("imgSrc") String imgSrc, HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<>();
         logger.info(request.getSession().toString());
@@ -84,8 +79,8 @@ public class HomeController {
      * @param request client request
      * @return json of status
      */
-    @RequestMapping(value = "/editPassword.do")
-    @ResponseBody
+    @RequestMapping(value = "/user/password/", method = RequestMethod.PUT, headers = "Accept=application/json",
+            produces = {"application/json;charset=UTF-8"})
     public Map<String, Object> editPassword(@RequestParam("oldPassword") String oldPw, @RequestParam("newPassword") String newPw, HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<>();
         int id = Integer.parseInt(request.getParameter("id"));
@@ -109,8 +104,8 @@ public class HomeController {
      * @return json of status
      * @throws IOException
      */
-    @RequestMapping(value = "/imageUpload.do")
-    @ResponseBody
+    @RequestMapping(value = "/user/image/", method = RequestMethod.POST, headers = "Accept=application/json",
+            produces = {"application/json;charset=UTF-8"})
     public Map<String, Object> imageUpload(HttpServletResponse response, HttpServletRequest request) throws IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
@@ -134,8 +129,8 @@ public class HomeController {
      * @param request client request
      * @return json of list and status
      */
-    @RequestMapping(value = "/moreMedia.do")
-    @ResponseBody
+    @RequestMapping(value = "/user/media/", method = RequestMethod.GET, headers = "Accept=application/json",
+            produces = {"application/json;charset=UTF-8"})
     public Map<String, Object> moreMedia(@RequestParam("id") Integer id, @RequestParam("index") Integer index) {
         Map<String, Object> modelMap = new HashMap<>();
 
@@ -156,8 +151,8 @@ public class HomeController {
      * @param request client request
      * @return json of list and status
      */
-    @RequestMapping(value = "/morePDF.do")
-    @ResponseBody
+    @RequestMapping(value = "/user/PDF/", method = RequestMethod.GET, headers = "Accept=application/json",
+            produces = {"application/json;charset=UTF-8"})
     public Map<String, Object> morePDF(@RequestParam("id") Integer id, @RequestParam("index") Integer index) {
         Map<String, Object> modelMap = new HashMap<>();
         List<Resources> resources = resourcesService.selectByUserId(id, index, 16);
@@ -175,8 +170,8 @@ public class HomeController {
      *
      *
      */
-    @RequestMapping("/moreReply.do")
-    @ResponseBody
+    @RequestMapping(value = "/user/reply/", method = RequestMethod.GET, headers = "Accept=application/json",
+            produces = {"application/json;charset=UTF-8"})
     public Map<String, Object> moreReply(@RequestParam("id")int id, @RequestParam("index") int index) {
         Map<String, Object> modelMap = new HashMap<>();
         List<Reply> replies = replyService.selectByUserId(id, index, 16);
@@ -195,8 +190,8 @@ public class HomeController {
      * @param index
      * @return
      */
-    @RequestMapping("/moreTopic.do")
-    @ResponseBody
+    @RequestMapping(value = "/user/topic/", method = RequestMethod.GET, headers = "Accept=application/json",
+            produces = {"application/json;charset=UTF-8"})
     public Map<String, Object> moreTopic(@RequestParam("id")int id, @RequestParam("index") int index) {
         Map<String, Object> modelMap = new HashMap<>();
         List<Topic> topics = topicService.selectByUserId(id, index, 16);

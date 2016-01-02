@@ -36,10 +36,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="${ctx}/index.jsp">主页<span class="sr-only">(current)</span></a></li>
-                <li><a href="${ctx}/PDFSkip.do">电子书</a></li>
-                <li><a href="${ctx}/MediaSkip.do">视频</a></li>
-                <li><a href="${ctx}/topicSkip.do">社区</a></li>
-                <li><a href="${ctx}/about.do">关于</a></li>
+                <li><a href="${ctx}/api/EBook/">电子书</a></li>
+                <li><a href="${ctx}/api/MediaSkip.do">视频</a></li>
+                <li><a href="${ctx}/api/topic">社区</a></li>
+                <li><a href="${ctx}/about.jsp">关于</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -48,19 +48,19 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">${user.name}<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${ctx}/homeSkip.do">个人中心</a></li>
-                                <li><a href="${ctx}/homeEditSkip.do">修改资料</a></li>
-                                <li><a href="${ctx}/homeEditPasswordSkip.do">修改密码</a></li>
+                                <li><a href="${ctx}/api/homeSkip.do">个人中心</a></li>
+                                <li><a href="${ctx}/api/homeEditSkip.do">修改资料</a></li>
+                                <li><a href="${ctx}/api/homeEditPasswordSkip.do">修改密码</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="${ctx}/logoutSkip.do">注销</a></li>
+                                <li><a href="${ctx}/api/logoutSkip.do">注销</a></li>
                             </ul>
                         </c:when>
                         <c:otherwise>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">登陆/注册<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${ctx}/stuLoginSkip.do">学生登陆/注册</a></li>
-                                <li><a href="${ctx}/teaLoginSkip.do">教师登陆/注册</a></li>
+                                <li><a href="${ctx}/api/stuLoginSkip.do">学生登陆/注册</a></li>
+                                <li><a href="${ctx}/api/teaLoginSkip.do">教师登陆/注册</a></li>
                             </ul>
                         </c:otherwise>
                     </c:choose>
@@ -131,4 +131,5 @@
             }
         })
     }
+
 </script>

@@ -11,10 +11,10 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css">
-<script src="js/jquery.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-combined.min.css"/>">
+<script src="<c:url value="/js/jquery.min.js"/>" type="text/javascript"></script>
+<script type="text/javascript" src="<c:url value="/js/bootstrap.min.js"/>"></script>
 <style type="text/css">
     .loginfuckcontainer {
         max-width: 1080px;
@@ -168,7 +168,7 @@
                 </div>
                 <span class="help-block">这里填写帮助信息.</span>
                 <button type="button" class="btn btn-primary pull-left" id="submit">登陆</button>
-                <a href="${ctx}/teaRegisterSkip.do">
+                <a href="${ctx}/api/teaRegisterSkip.do">
                     <button type="button" class="btn btn-primary pull-right">注册</button>
                 </a>
             </form>
@@ -208,8 +208,8 @@
             var password = $('#password').val();
             jQuery.ajax({
                 data: {email: email, password: password},
-                type: 'POST',
-                url: '${ctx}/teaLogin.do',
+                type: 'GET',
+                url: '${ctx}/api/teaLogin/',
                 success: function (data) {
                     if (data && data.success == "true") {
                         window.location.href="../../../index.jsp";

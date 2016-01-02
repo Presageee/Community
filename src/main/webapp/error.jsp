@@ -85,10 +85,10 @@
     <div class="row" style="margin-top: 30%;">
         <div class="col-md-4"></div>
         <div class="col-md-2">
-            <a href="${ctx}/stuLogin.do"><button class="btn btn-default">学生登陆/注册</button></a>
+            <a href="${ctx}/stuLoginSkip.do"><button class="btn btn-default">学生登陆/注册</button></a>
         </div>
         <div class="col-md-2">
-            <a href="${ctx}/teaLogin.do"><button class="btn btn-default">教师登陆/注册</button></a>
+            <a href="${ctx}/teaLoginSkip.do"><button class="btn btn-default">教师登陆/注册</button></a>
         </div>
         <div class="col-md-4"></div>
     </div>

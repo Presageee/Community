@@ -11,9 +11,9 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <script src="js/jquery.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css" />">
+    <script src="<c:url value="/js/jquery.min.js"/>" type="text/javascript"></script>
+    <script type="text/javascript" src="<c:url value="/js/bootstrap.min.js" />"></script>
 
     <title>电子书资源</title>
     <style type="text/css">
@@ -86,7 +86,7 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <form style="padding-top:1em" action="searchPDFByKey.do" method="post">
+            <form style="padding-top:1em" action="${ctx}/api/EBook/PDFs/" method="get">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="input-group">
@@ -146,25 +146,23 @@
     var y = 2;
     var searchKey = "${searchKey}";
     function load() {
-        if (searchKey == null) {
-            searchKey = "";
+        if (searchKey == null || searchKey == "default") {
+            searchKey = "default";
         } else {
             $('#search').attr("value", searchKey);
         }
         jQuery.ajax({
-            url: "${ctx}/searchPDF.do",
-            data: {index: x, key: searchKey},
-            type: "POST",
+            url: "${ctx}/api/EBook/PDFs/key/" + searchKey + "/index/" + x,
+            type: "GET",
             success: function (data) {
-                if (data && data.success == "true") {
-                    console.log(data.success);
-                    console.log(data.pdf);
+                console.log(data);
+                if (data) {
                     var i;
                     var addResults = "";
-                    for (i = 0; i < data.pdf.length; i++) {
-                        addResults += "<a href='${ctx}/RedirectPDFReader.do?pdfId=" + data.pdf[i].id + "'><li class='list-group-item'>";
-                        addResults += "<span class='badge'>" + data.pdf[i].time + "</span>";
-                        addResults += data.pdf[i].name + "</li></a> <br>";
+                    for (i = 0; i < data.length; i++) {
+                        addResults += "<a href='${ctx}/api/EBook/PDFReader/" + data[i].id + "'><li class='list-group-item'>";
+                        addResults += "<span class='badge'>" + data[i].time + "</span>";
+                        addResults += data[i].name + "</li></a> <br>";
                     }
                     console.log(addResults);
                     $('#resultsList').append(addResults);
@@ -185,19 +183,16 @@
 
     $('#moreSearchPDF').click(function () {
         jQuery.ajax({
-            url: "${ctx}/searchPDF.do",
-            data: {index: y, key: searchKey},
+            url: "${ctx}/api/EBook/PDFs/key/" + searchKey + "/index/" + y,
             type: "POST",
             success: function (data) {
-                if (data && data.success == "true") {
-                    console.log(data.success);
-                    console.log(data.pdf);
+                if (data) {
                     var i;
                     var addResults = "";
-                    for (i = 0; i < data.pdf.length; i++) {
-                        addResults += "<a href='${ctx}/RedirectPDFReader.do?pdfId=" + data.pdf[i].id + "'><li class='list-group-item'>";
-                        addResults += "<span class='badge'>" + data.pdf[i].time + "</span>";
-                        addResults += data.pdf[i].name + "</li></a> <br>";
+                    for (i = 0; i < data.length; i++) {
+                        addResults += "<a href='${ctx}/api/EBook/PDFReader/" + data[i].id + "'><li class='list-group-item'>";
+                        addResults += "<span class='badge'>" + data[i].time + "</span>";
+                        addResults += data[i].name + "</li></a> <br>";
                     }
                     console.log(addResults);
                     $('#resultsList').append(addResults);
@@ -221,6 +216,6 @@
     }
 
     $('#uploadPDF').click(function () {
-        window.location.href = "${ctx}/PDFUploadSkip.do";
+        window.location.href = "${ctx}/api/EBook/PDFUploadSkip.do";
     });
 </script>

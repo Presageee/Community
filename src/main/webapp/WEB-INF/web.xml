@@ -23,6 +23,7 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
     <!-- Spring监听器 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -31,7 +32,15 @@
     <listener>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
     </listener>
+    <filter>
+        <filter-name>HiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
 
+    <filter-mapping>
+        <filter-name>HiddenHttpMethodFilter</filter-name>
+        <servlet-name>SpringMVC</servlet-name>
+    </filter-mapping>
     <!-- Spring MVC servlet -->
     <servlet>
         <servlet-name>SpringMVC</servlet-name>
@@ -46,7 +55,7 @@
     <servlet-mapping>
         <servlet-name>SpringMVC</servlet-name>
         <!-- 此处可以可以配置成*.do，对应struts的后缀习惯 -->
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     <!-- <error-page>
          <error-code></error-code>

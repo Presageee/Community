@@ -8,9 +8,8 @@ import org.learncommunity.service.ResourcesService;
 import org.learncommunity.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -122,21 +121,38 @@ public class SkipController {
     public void logoutSkip(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.getSession().removeAttribute("user");
         request.getSession().removeAttribute("isLogin");
-        response.sendRedirect("index.jsp");
+        String ctx = request.getContextPath();
+        logger.info(ctx);
+        response.sendRedirect(ctx + "/index.jsp");
     }
 
-    @RequestMapping(value = "/PDFSkip.do")
+    @RequestMapping(value = "/EBook/", method = RequestMethod.GET)
     public ModelAndView PDFSkip(HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
         //request.getSession().setAttribute("");
         if (request.getSession().getAttribute("searchKey") != null) {
             request.getSession().removeAttribute("searchKey");
-            request.getSession().setAttribute("searchKey", "");
+            request.getSession().setAttribute("searchKey", "default");
         } else {
-            request.getSession().setAttribute("searchKey", "");
+            request.getSession().setAttribute("searchKey", "default");
         }
         logger.info(request.getSession().getAttribute("searchKey"));
         mv.setViewName("/PDFResources/resources");
+        return mv;
+    }
+
+    /**
+     * redirectPDFReader
+     * @param request
+     * @param
+     * @throws IOException
+     */
+    @RequestMapping(value = "EBook/PDFReader/{pdfId}")
+    public ModelAndView RedirectPDFReader(HttpServletRequest request, Model model, @PathVariable Integer pdfId) throws IOException{
+        ModelAndView mv = new ModelAndView();
+        model.addAttribute("pdfId", pdfId);
+        logger.info("ididid   " + pdfId);
+        mv.setViewName("/PDFResources/PDFPages");
         return mv;
     }
 
@@ -153,7 +169,7 @@ public class SkipController {
         return mv;
     }
 
-    @RequestMapping(value = "/topicSkip.do")
+    @RequestMapping(value = "/topic")
     public ModelAndView topicSkip(HttpServletRequest request){
         ModelAndView mv = new ModelAndView();
         if (request.getSession().getAttribute("searchTopicKey") != null) {
@@ -166,7 +182,7 @@ public class SkipController {
         return mv;
     }
 
-    @RequestMapping("/PDFUploadSkip.do")
+    @RequestMapping("EBook/PDFUploadSkip.do")
     public ModelAndView PDFUploadSkip() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/PDFResources/PDFUpload");

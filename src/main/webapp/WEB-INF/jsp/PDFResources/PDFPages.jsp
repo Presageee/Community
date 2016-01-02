@@ -11,33 +11,28 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <script src="js/jquery.min.js" type="text/javascript"></script>
-    <script type='text/javascript' src="js/pdfobject.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css" />">
+    <script src="<c:url value="/js/jquery.min.js"/>" type="text/javascript"></script>
+    <script type="text/javascript" src="<c:url value="/js/bootstrap.min.js" />"></script>
+    <script type='text/javascript' src="<c:url value="/js/pdfobject.js"/>"></script>
     <script type='text/javascript'>
         window.onload = function load(){
             var pdfId = "${pdfId}";
             jQuery.ajax({
-                url: "${ctx}/loadPDF.do",
-                data: {pdfId: pdfId},
-                type: "POST",
+                url: "${ctx}/api/EBook/PDFs/" + pdfId,
+                type: "GET",
                 success: function (data) {
-                    if (data && data.success == "true"){
-                        if (data.pdf){
-                            var url = data.pdf.url;
-                            $('#downloadUrl').attr("value", data.pdf.url);
-                            var myPDF = new PDFObject({
-                                url: url,
-                                pdfOpenParams:{
-                                    navpanes: 1,
-                                    view: "FitV",
-                                    pagemode: "thumbs"
-                                }
-                            }).embed("pdf");
-                        } else{
-                            alert("没有该资源或系统出错，请刷新");
-                        }
+                    if (data){
+                        //var json = jQuery.parseJSON(data);
+                        $('#downloadUrl').attr("value", data.url);
+                        var myPDF = new PDFObject({
+                            url: "${ctx}/" + data.url,
+                            pdfOpenParams:{
+                                navpanes: 1,
+                                view: "FitV",
+                                pagemode: "thumbs"
+                            }
+                        }).embed("pdf");
                     } else {
                         alert("系统繁忙，请重试");
                     }
@@ -57,7 +52,8 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -69,30 +65,32 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="${ctx}/index.jsp">主页<span class="sr-only">(current)</span></a></li>
-                <li><a href="${ctx}/PDFSkip.do">电子书</a></li>
-                <li><a href="${ctx}/MediaSkip.do">视频</a></li>
-                <li><a href="${ctx}/topicSkip.do">社区</a></li>
-                <li><a href="${ctx}/about.do">关于</a></li>
+                <li class="active"><a href="${ctx}/index.jsp">主页<span class="sr-only">(current)</span></a></li>
+                <li><a href="${ctx}/api/EBook/">电子书</a></li>
+                <li><a href="${ctx}/api/MediaSkip.do">视频</a></li>
+                <li><a href="${ctx}/api/topic">社区</a></li>
+                <li><a href="${ctx}/api/about.do">关于</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <c:choose>
                         <c:when test="${isLogin == 'hello'}">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${user.name}<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">${user.name}<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${ctx}/homeSkip.do">个人中心</a></li>
-                                <li><a href="${ctx}/homeEditSkip.do">修改资料</a></li>
-                                <li><a href="${ctx}/homeEditPasswordSkip.do">修改密码</a></li>
+                                <li><a href="${ctx}/api/homeSkip.do">个人中心</a></li>
+                                <li><a href="${ctx}/api/homeEditSkip.do">修改资料</a></li>
+                                <li><a href="${ctx}/api/homeEditPasswordSkip.do">修改密码</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="${ctx}/logoutSkip.do">注销</a></li>
+                                <li><a href="${ctx}/api/logoutSkip.do">注销</a></li>
                             </ul>
                         </c:when>
                         <c:otherwise>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登陆/注册<span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">登陆/注册<span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${ctx}/stuLoginSkip.do">学生登陆/注册</a></li>
-                                <li><a href="${ctx}/teaLoginSkip.do">教师登陆/注册</a></li>
+                                <li><a href="${ctx}/api/stuLoginSkip.do">学生登陆/注册</a></li>
+                                <li><a href="${ctx}/api/teaLoginSkip.do">教师登陆/注册</a></li>
                             </ul>
                         </c:otherwise>
                     </c:choose>

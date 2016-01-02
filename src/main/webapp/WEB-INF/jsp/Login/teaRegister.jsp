@@ -11,10 +11,10 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-combined.min.css">
-<script src="js/jquery.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/>">
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-combined.min.css"/>">
+<script src="<c:url value="/js/jquery.min.js"/>" type="text/javascript"></script>
+<script type="text/javascript" src="<c:url value="/js/bootstrap.min.js"/>"></script>
 <style type="text/css">
     .loginfuckcontainer {
         max-width: 1080px;
@@ -181,7 +181,7 @@
                         <div class="message content">与上面密码不一致</div>
                     </div>
                     <button type="button" class="btn btn-primary pull-left" id="submit">注册</button>
-                    <a href="${ctx}/teaLoginSkip.do">
+                    <a href="${ctx}/api/teaLoginSkip.do">
                         <button type="button" class="btn btn-primary pull-right">登陆</button>
                     </a>
                 </fieldset>
@@ -210,8 +210,8 @@
             if ($(this).val() != '') {
                 jQuery.ajax({
                     data: {email: email},
-                    type: 'POST',
-                    url: '${ctx}/emailIsExists.do',
+                    type: 'GET',
+                    url: '${ctx}/api/emailIsExists/',
                     success: function (data) {
                         if (data && data.success == "true") {
                             $('#email').next().removeClass('open');
@@ -235,8 +235,8 @@
             if ($(this).val() != '') {
                 jQuery.ajax({
                     data: {name: name},
-                    type: 'POST',
-                    url: '${ctx}/nameIsExists.do',
+                    type: 'GET',
+                    url: '${ctx}/api/nameIsExists/',
                     success: function (data) {
                         if (data && data.success == "true") {
                             $('#name').next().removeClass('open');
@@ -289,7 +289,7 @@
                 jQuery.ajax({
                     data: {email: email, name: name, password: password},
                     type: 'POST',
-                    url: '${ctx}/teaRegister.do',
+                    url: '${ctx}/api/teaRegister/',
                     success: function (data) {
                         if (data && data.success == "true") {
                             window.location.href="${ctx}/teaLogin.do";
